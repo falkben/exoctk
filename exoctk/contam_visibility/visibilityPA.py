@@ -409,6 +409,6 @@ def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, outpu
         elif ((badPAs[idx - 1] + 1) < badPAs[idx]):
             grouped_badPAs.append([badPAs[idx]])
 
-    grouped_badPAs = np.asarray(grouped_badPAs)
+    grouped_badPAs = np.asarray(grouped_badPAs, dtype=object)
 
     return paMin, paMax, gd, fig, table, grouped_badPAs

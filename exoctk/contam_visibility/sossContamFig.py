@@ -13,7 +13,7 @@ import numpy as np
 from . import visibilityPA as vpa
 
 TRACES_PATH = os.path.join(
-    os.environ.get('EXOCTK_DATA', os.path.expanduser('~') + "/exoctk_data/"),
+    os.environ.get('EXOCTK_DATA', ""),
     'exoctk_contam', 'traces')
 
 disp_nircam = 0.001 # microns

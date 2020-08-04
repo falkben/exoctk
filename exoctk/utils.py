@@ -27,8 +27,7 @@ PROFILES = ['uniform', 'linear', 'quadratic',
 FILTERS = svo.filters()
 
 # Get the location of EXOCTK_DATA environvment variable and check that it is valid
-EXOCTK_DATA = os.environ.get(
-    'EXOCTK_DATA', os.path.expanduser('~') + "/exoctk_data/")
+EXOCTK_DATA = os.environ.get('EXOCTK_DATA', "")
 
 # If the variable is blank or doesn't exist
 HOME_DIR = os.path.expanduser('~')
@@ -535,7 +534,7 @@ def get_env_variables():
     env_variables = {}
 
     # Get the location of EXOCTK_DATA environvment variable and check that it is valid
-    env_variables['exoctk_data'] = os.environ.get('EXOCTK_DATA')
+    env_variables['exoctk_data'] = os.environ.get('EXOCTK_DATA', "")
 
     # If the variable is blank or doesn't exist
     ON_TRAVIS = os.path.expanduser('~') == '/home/travis' or os.path.expanduser('~') == '/Users/travis'

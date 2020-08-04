@@ -233,7 +233,7 @@ def fill_between(fig, xdata, pamin, pamax, **kwargs):
         fig.patch(x, y, **kwargs)
     return fig
 
-def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, output='bokeh'):
+def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, output='bokeh', quiet=False):
     """Plot the visibility (at a range of position angles) against time.
 
     Parameters
@@ -289,7 +289,8 @@ def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, outpu
                 delta = np.abs(a1-b1)
 
                 if delta>250:
-                    print(a1,b1,delta)
+                    if not quiet:
+                        print(a1,b1,delta)
                     gd = np.insert(gd, idx+1, np.nan)
                     paMin = np.insert(paMin, idx+1, np.nan)
                     paMax = np.insert(paMax, idx+1, np.nan)
@@ -374,7 +375,8 @@ def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, outpu
         if (pa not in np.round(paMinnan)) & \
            (pa not in np.round(paMaxnan)) & \
            (pa not in np.round(paNomnan)):
-            print('the bad PAs:', pa)
+            if not quiet:
+                print('the bad PAs:', pa)
             badPAs.append(pa)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NOTE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -402,8 +404,9 @@ def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, outpu
     for idx in range(1, len(badPAs)):
 
         if ((badPAs[idx - 1] + 1) == badPAs[idx]):
-            print((badPAs[idx - 1] + 1))
-            print(badPAs[idx])
+            if not quiet:
+                print((badPAs[idx - 1] + 1))
+                print(badPAs[idx])
             grouped_badPAs[len(grouped_badPAs) - 1].append(badPAs[idx])
 
         elif ((badPAs[idx - 1] + 1) < badPAs[idx]):

@@ -323,7 +323,7 @@ def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, outpu
     # Draw the curve and PA min/max circles
     nom = fig.line('date', 'panom',
                     line_color=COLOR,
-                    legend='Nominal Aperture PA',
+                    legend_label='Nominal Aperture PA',
                     alpha=.5,
                     source=SOURCE)
     fig.circle('date', 'pamin', color=COLOR, size=1, source=SOURCE)

@@ -192,7 +192,14 @@ def checkVisPA(ra, dec, targetName=None, ephFileName=None, fig=None):
     color = 'green'
 
     # Draw the curve and error
-    fig.line(gdMaskednum, paMasked, legend='cutoff', line_color=color)
+    try:
+        fig.line(
+            gdMaskednum,
+            paMasked,
+            legend_label='cutoff',
+            line_color=color)
+    except AttributeError:
+        fig.line(gdMaskednum, paMasked, legend='cutoff', line_color=color)
 
     # Top
     terr_y = np.concatenate([paMin[i0_top:i1_top+1],
@@ -321,11 +328,19 @@ def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, outpu
                                                           instrument))
 
     # Draw the curve and PA min/max circles
-    nom = fig.line('date', 'panom',
-                    line_color=COLOR,
-                    legend_label='Nominal Aperture PA',
-                    alpha=.5,
-                    source=SOURCE)
+    try:
+        nom = fig.line('date', 'panom',
+                       line_color=COLOR,
+                       legend_label='Nominal Aperture PA',
+                       alpha=.5,
+                       source=SOURCE)
+    except AttributeError:
+        nom = fig.line('date', 'panom',
+                       line_color=COLOR,
+                       legend='Nominal Aperture PA',
+                       alpha=.5,
+                       source=SOURCE)
+
     fig.circle('date', 'pamin', color=COLOR, size=1, source=SOURCE)
     fig.circle('date', 'pamax', color=COLOR, size=1, source=SOURCE)
 
@@ -397,18 +412,22 @@ def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, outpu
     # (sossContamFig.py)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     badPAs = np.sort(badPAs)
-    grouped_badPAs = [[badPAs[0]]]
 
-    for idx in range(1, len(badPAs)):
+    if len(badPAs > 0):
+        grouped_badPAs = [[badPAs[0]]]
 
-        if ((badPAs[idx - 1] + 1) == badPAs[idx]):
-            print((badPAs[idx - 1] + 1))
-            print(badPAs[idx])
-            grouped_badPAs[len(grouped_badPAs) - 1].append(badPAs[idx])
+        for idx in range(1, len(badPAs)):
 
-        elif ((badPAs[idx - 1] + 1) < badPAs[idx]):
-            grouped_badPAs.append([badPAs[idx]])
+            if ((badPAs[idx - 1] + 1) == badPAs[idx]):
 
-    grouped_badPAs = np.asarray(grouped_badPAs, dtype=object)
+                grouped_badPAs[len(grouped_badPAs) - 1].append(badPAs[idx])
+
+            elif ((badPAs[idx - 1] + 1) < badPAs[idx]):
+                grouped_badPAs.append([badPAs[idx]])
+
+        grouped_badPAs = np.asarray(grouped_badPAs)
+
+    else:  # Accounting for targets with 100% visibility
+        grouped_badPAs = np.asarray([])
 
     return paMin, paMax, gd, fig, table, grouped_badPAs

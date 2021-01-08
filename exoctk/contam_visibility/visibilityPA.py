@@ -409,7 +409,6 @@ def using_gtvt(ra, dec, instrument, targetName='noName', ephFileName=None, outpu
         # index and return those that are above threshold
         return badPAs_array[0, above_thresh]
 
-    # badPAs = remove_pa_loop(badPAs, paNomnan)
     badPAs = select_badPAs_ge_paNomnan(badPAs, paNomnan)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NOTE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -422,7 +422,7 @@ def using_gtvt(
             elif ((badPAs[idx - 1] + 1) < badPAs[idx]):
                 grouped_badPAs.append([badPAs[idx]])
 
-        grouped_badPAs = np.asarray(grouped_badPAs)
+        grouped_badPAs = np.asarray(grouped_badPAs, dtype=object)
 
     else:  # Accounting for targets with 100% visibility
         grouped_badPAs = np.asarray([])
